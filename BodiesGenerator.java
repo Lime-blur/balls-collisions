@@ -12,6 +12,14 @@ public class BodiesGenerator {
         }
     }
 
+    public static void deleteBody(int indexToDelete) {
+        body[indexToDelete] = null;
+
+        for (int i = 0; i < getBodiesArraySize()-1; i++) {
+            body[i-1] = body[i];
+        }
+    }
+
     public static Bodies getBodyByID(int id) { return body[id]; }
 
     public static void fillArrayManually(int amount, String type, double x, double y, double width, double height, double angle) {
