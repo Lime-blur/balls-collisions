@@ -32,9 +32,6 @@ public class CreateGUI extends JPanel{
         setPreferredSize(new Dimension(Workspace.getWindowSize("width"), Workspace.getWindowSize("height")));
         setBackground(Color.GRAY);
         createButtons();
-        //BodiesGenerator.fillArrayAutomatically(25, "circle", 70, 70, 60);
-        //BodiesGenerator.fillSpace(true);
-        InstrumentsPanel.updateInstrumentsEdits();
     }
 
     /**
@@ -97,7 +94,7 @@ public class CreateGUI extends JPanel{
         private RenderActionListener() { timer = new Timer(Animations.getBodyDelayValue(), this); }
 
         /**
-         * запуск процесса.
+         * перезапуск процесса.
          */
 
         private void reload()
