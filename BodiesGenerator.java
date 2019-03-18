@@ -1,40 +1,40 @@
 package ActionScript;
 
+import java.util.ArrayList;
+
 public class BodiesGenerator {
 
-    public static Bodies[] body = null;
+    public static ArrayList<Bodies> body = new ArrayList<>();;
 
     public static int getBodiesArraySize() {
-        if (body == null) {
+        if (body.isEmpty()) {
             return -1;
         } else {
-            return body.length;
+            return body.size();
         }
     }
 
     public static void deleteBody(int indexToDelete) {
-        body[indexToDelete] = null;
+        body.remove(indexToDelete);
+    }
 
-        for (int i = 0; i < getBodiesArraySize()-1; i++) {
-            body[i-1] = body[i];
+    public static Bodies getBodyByID(int id) {
+        if (body.get(id).equals(null)) {
+            return null;
+        } else {
+            return body.get(id);
         }
     }
 
-    public static Bodies getBodyByID(int id) { return body[id]; }
-
     public static void fillArrayManually(int amount, String type, double x, double y, double width, double height, double angle) {
-        body = new Bodies[amount];
-
-        for (int i = 0; i < getBodiesArraySize(); i++) {
-            body[i] = new Bodies(i, type, x, y, width, height, angle);
+        for (int i = 0; i < amount; i++) {
+            body.add(new Bodies(i, type, x, y, width, height, angle));
         }
     }
 
     public static void fillArrayAutomatically(int amount, String type, double width, double height, double angle) {
-        body = new Bodies[amount];
-
-        for (int i = 0; i < getBodiesArraySize(); i++) {
-            body[i] = new Bodies(i, type, width, height, angle);
+        for (int i = 0; i < amount; i++) {
+            body.add(new Bodies(i, type, width, height, angle));
         }
     }
 
