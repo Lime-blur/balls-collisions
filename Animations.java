@@ -26,7 +26,7 @@ public class Animations {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
-    private static double getBodyCenter(double a, double width) { return a + (width / 2); }
+    public static double getBodyCenter(double a, double width) { return a + (width / 2); }
 
     private static void chengeVectorOnHit(Bodies body, double left, double right, double top, double bottom) {
         if (body.x + body.vectorX < left) {

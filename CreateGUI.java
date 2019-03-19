@@ -19,13 +19,13 @@ public class CreateGUI extends JPanel{
     private JButton button2 = new JButton("Остановить");
     private JButton button3 = new JButton("Сбросить");
     private JButton button4 = new JButton("Обновить форму");
+    private JCheckBox checkBox1 = new JCheckBox("Показывать ID тел", true);
 
     /* события и слушатели */
     private ActionListener runListener = new RunActionListener();
     private ActionListener stopListener = new StopActionListener();
     private ActionListener resetListener = new ResetActionListener();
     private ActionListener reloadListener = new ReloadActionListener();
-    private ActionListener listenersArray[] = {runListener, stopListener, resetListener, reloadListener};
 
     /* конструктор */
     public CreateGUI() {
@@ -211,29 +211,34 @@ public class CreateGUI extends JPanel{
      */
 
     public void createButtons() {
-        JButton buttonsArray[] = {button1, button2, button3, button4};
 
         button1.setFocusPainted(false);
         button2.setFocusPainted(false);
         button3.setFocusPainted(false);
         button4.setFocusPainted(false);
+        checkBox1.setFocusPainted(false);
 
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        GridBagLayout layout = new GridBagLayout();
-        layout.rowHeights = new int[]{23, 23, 23, 0};
-        layout.columnWeights = new double[]{1.0};
-        layout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-        setLayout(layout);
 
-        for (int i = 0; i < 4; i++) {
-            GridBagConstraints gbc = new GridBagConstraints();
-            buttonsArray[i].addActionListener(listenersArray[i]);
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.gridx = 1;
-            if (i < 3) gbc.gridy = i; else gbc.gridy = i + 1;
-            gbc.insets = new Insets(5,0,0,0);
-            add(buttonsArray[i], gbc);
-        }
+        setLayout(null);
+        button1.setBounds(Workspace.getWindowSize("width") - 143, 10, 135, 30);
+        button1.addActionListener(runListener);
+        add(button1);
+
+        button2.setBounds(Workspace.getWindowSize("width") - 143, 45, 135, 30);
+        button2.addActionListener(stopListener);
+        add(button2);
+
+        button3.setBounds(Workspace.getWindowSize("width") - 143, 80, 135, 30);
+        button3.addActionListener(resetListener);
+        add(button3);
+
+        button4.setBounds(Workspace.getWindowSize("width") - 143, Workspace.getWindowSize("height") - 40, 135, 30);
+        button4.addActionListener(reloadListener);
+        add(button4);
+
+        checkBox1.setBounds(5, 460, 135, 30);
+        add(checkBox1);
     }
 
     /**
@@ -294,6 +299,13 @@ public class CreateGUI extends JPanel{
                             (int) body.width,
                             (int) body.height
                     );
+                    if (checkBox1.isSelected()) {
+                        g.drawString(
+                                String.valueOf(body.id + 1),
+                                (int) Animations.getBodyCenter(body.x, body.width),
+                                (int) Animations.getBodyCenter(body.y, body.height)
+                        );
+                    }
                 }
             }
         }

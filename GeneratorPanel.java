@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 public class GeneratorPanel extends JPanel {
 
     private static JLabel label1 = new JLabel("Количество тел:");
+    private static JLabel label2 = new JLabel("ID тела:");
 
     private static JTextField edit1 = new JTextField("1");
+    private static JTextField edit2 = new JTextField("1");
 
     private static JButton generateButton = new JButton("Сгенерировать");
     private static JButton deleteButton = new JButton("Удалить");
@@ -52,8 +54,11 @@ public class GeneratorPanel extends JPanel {
             int arraySize = BodiesGenerator.getBodiesArraySize();
 
             if (arraySize != -1) {
-                if (Integer.parseInt(edit1.getText()) > 0) {
-                    BodiesGenerator.deleteBody(Integer.parseInt(edit1.getText())-1);
+                int bodyToDelete = Integer.parseInt(edit2.getText());
+                if (Integer.parseInt(edit2.getText()) > 0) {
+                    if (BodiesGenerator.getBodyByID(bodyToDelete).equals(null)) { // заменить на противоположное
+                        BodiesGenerator.deleteBody(Integer.parseInt(edit2.getText()) - 1);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Удалить можно минимум 1 шар!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
@@ -62,8 +67,8 @@ public class GeneratorPanel extends JPanel {
     }
 
     private void addPanelComponents() {
-        JTextField editsArray[] = {edit1};
-        JLabel labelsArray[] = {label1};
+        JTextField editsArray[] = {edit1, edit2};
+        JLabel labelsArray[] = {label1, label2};
         int j = 0, k = 0;
 
         generateButton.setFocusPainted(false);
@@ -72,19 +77,15 @@ public class GeneratorPanel extends JPanel {
         setBorder(new EmptyBorder(5, 10, 10, 10));
         setLayout(new GridLayout(16, 1, 0, 6));
 
-        for (int i = 0; i < 2; i++) {
-            if (i % 2 == 0) {
-                add(labelsArray[j]);
-                j++;
-            } else {
-                add(editsArray[k]);
-                k++;
-            }
-        }
-
         generateButton.addActionListener(generateListener);
         deleteButton.addActionListener(deleteListener);
+
+        add(labelsArray[0]);
+        add(editsArray[0]);
         add(generateButton);
+
+        add(labelsArray[1]);
+        add(editsArray[1]);
         add(deleteButton);
     }
 }
