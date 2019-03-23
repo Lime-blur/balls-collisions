@@ -200,8 +200,8 @@ public class CreateGUI extends JPanel{
                     }
                     timer.stop();
                 }
-                repaintAll();
             }
+            repaintAll();
         }
     }
 

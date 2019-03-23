@@ -24,6 +24,7 @@ public class MainAction extends JFrame {
         helpFrame.setResizable(false);
 
         helpFrame.setType(Type.UTILITY);
+        helpFrame.setAlwaysOnTop(true);
         helpFrame.getContentPane().add(new InstrumentsPanel());
         helpFrame.pack();
         helpFrame.setLocation(
@@ -35,6 +36,7 @@ public class MainAction extends JFrame {
         generatorFrame.setResizable(false);
 
         generatorFrame.setType(Type.UTILITY);
+        generatorFrame.setAlwaysOnTop(true);
         generatorFrame.getContentPane().add(new GeneratorPanel());
         generatorFrame.pack();
         generatorFrame.setLocation(

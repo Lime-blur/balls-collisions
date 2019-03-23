@@ -14,15 +14,23 @@ public class BodiesGenerator {
         }
     }
 
-    public static void deleteBody(int indexToDelete) {
-        body.remove(indexToDelete);
+    public static void deleteBody(int indexToDelete) { body.remove(indexToDelete); }
+
+    public static void updateBodiesID() {
+        for (int i = 0; i < body.size(); i++) {
+            Bodies currentBody = body.get(i);
+            currentBody.id = i;
+        }
     }
 
     public static Bodies getBodyByID(int id) {
-        if (body.get(id).equals(null)) {
+        if (body.isEmpty()) {
             return null;
         } else {
-            return body.get(id);
+            if (id > -1 && id < body.size()) {
+                return body.get(id);
+            }
+            return null;
         }
     }
 
