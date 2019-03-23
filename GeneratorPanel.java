@@ -43,6 +43,8 @@ public class GeneratorPanel extends JPanel {
                 } else {
                     JOptionPane.showMessageDialog(null, "Сгенерировать можно минимум 1 шар!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Форма должна быть очищена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -54,14 +56,19 @@ public class GeneratorPanel extends JPanel {
             int arraySize = BodiesGenerator.getBodiesArraySize();
 
             if (arraySize != -1) {
-                int bodyToDelete = Integer.parseInt(edit2.getText());
+                int bodyToDelete = Integer.parseInt(edit2.getText()) - 1;
                 if (Integer.parseInt(edit2.getText()) > 0) {
-                    if (BodiesGenerator.getBodyByID(bodyToDelete).equals(null)) { // заменить на противоположное
-                        BodiesGenerator.deleteBody(Integer.parseInt(edit2.getText()) - 1);
+                    if (BodiesGenerator.getBodyByID(bodyToDelete) != null) {
+                        BodiesGenerator.deleteBody(bodyToDelete);
+                        BodiesGenerator.updateBodiesID();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Неверные данные!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Удалить можно минимум 1 шар!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "ID должен быть больше нуля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "На форме нет ни одного тела!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
