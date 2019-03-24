@@ -71,11 +71,19 @@ public class BodiesGenerator {
         return maxSize;
     }
 
-    public static int[] calculateSpaceSize() {
+    public static int[] calculateSpaceSize(boolean isCustom, int sX, int sY) {
         int spaceWidth = Workspace.getFieldWalls("right") - Workspace.getFieldWalls("left");
         int spaceHeight = Workspace.getFieldWalls("bottom") - Workspace.getFieldWalls("top");
-        double maxWidth = findMaxBodySize("width");
-        double maxHeight = findMaxBodySize("height");
+        double maxWidth;
+        double maxHeight;
+
+        if (isCustom) {
+            maxWidth = sX;
+            maxHeight = sY;
+        } else {
+            maxWidth = findMaxBodySize("width");
+            maxHeight = findMaxBodySize("height");
+        }
 
         if (maxHeight != -1 && maxWidth != -1) {
             if (maxHeight > maxWidth || maxWidth > maxHeight) {
@@ -90,8 +98,8 @@ public class BodiesGenerator {
     }
 
     public static void fillSpace(boolean isRandom) {
-        int spaceSizeX = calculateSpaceSize()[0];
-        int spaceSizeY = calculateSpaceSize()[1];
+        int spaceSizeX = calculateSpaceSize(false, 0, 0)[0];
+        int spaceSizeY = calculateSpaceSize(false, 0, 0)[1];
         int factorX = 0, factorY = 1;
 
         if (spaceSizeX > 0 && spaceSizeY > 0) {

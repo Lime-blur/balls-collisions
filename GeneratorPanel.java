@@ -24,8 +24,8 @@ public class GeneratorPanel extends JPanel {
     /* конструктор */
     public GeneratorPanel() {
         setPreferredSize(new Dimension(
-                Workspace.getInstrumentWindowSize("width"),
-                Workspace.getInstrumentWindowSize("height")
+                Workspace.getGeneratorWindowSize("width"),
+                Workspace.getGeneratorWindowSize("height")
         ));
         addPanelComponents();
     }
@@ -37,9 +37,18 @@ public class GeneratorPanel extends JPanel {
             int arraySize = BodiesGenerator.getBodiesArraySize();
 
             if (arraySize == -1) {
-                if (Integer.parseInt(edit1.getText()) > 0) {
-                    BodiesGenerator.fillArrayAutomatically(Integer.parseInt(edit1.getText()), "circle", 70, 70, 60);
-                    BodiesGenerator.fillSpace(true);
+                int bodiesToGenerate = Integer.parseInt(edit1.getText());
+                if (bodiesToGenerate > 0) {
+                    int radius = 70;
+                    int spaceSizeX = BodiesGenerator.calculateSpaceSize(true, radius, radius)[0];
+                    int spaceSizeY = BodiesGenerator.calculateSpaceSize(true, radius, radius)[1];
+                    int spaceSquare = spaceSizeX * spaceSizeY;
+                    if (bodiesToGenerate <= spaceSquare) {
+                        BodiesGenerator.fillArrayAutomatically(bodiesToGenerate, "circle", radius, radius, 60);
+                        BodiesGenerator.fillSpace(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Сгенерировать можно максимум " + spaceSquare + " тел!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Сгенерировать можно минимум 1 шар!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
@@ -74,25 +83,15 @@ public class GeneratorPanel extends JPanel {
     }
 
     private void addPanelComponents() {
-        JTextField editsArray[] = {edit1, edit2};
-        JLabel labelsArray[] = {label1, label2};
-        int j = 0, k = 0;
-
         generateButton.setFocusPainted(false);
         deleteButton.setFocusPainted(false);
 
-        setBorder(new EmptyBorder(5, 10, 10, 10));
-        setLayout(new GridLayout(16, 1, 0, 6));
+        setLayout(null);
 
+        generateButton.setBounds(10, 10, Workspace.getGeneratorWindowSize("width") - 20, 30);
         generateButton.addActionListener(generateListener);
-        deleteButton.addActionListener(deleteListener);
-
-        add(labelsArray[0]);
-        add(editsArray[0]);
         add(generateButton);
 
-        add(labelsArray[1]);
-        add(editsArray[1]);
-        add(deleteButton);
+        deleteButton.addActionListener(deleteListener);
     }
 }

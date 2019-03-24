@@ -211,7 +211,6 @@ public class CreateGUI extends JPanel{
      */
 
     public void createButtons() {
-
         button1.setFocusPainted(false);
         button2.setFocusPainted(false);
         button3.setFocusPainted(false);
