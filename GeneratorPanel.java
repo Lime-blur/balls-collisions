@@ -64,12 +64,11 @@ public class GeneratorPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             int arraySize = BodiesGenerator.getBodiesArraySize();
-
-            if (arraySize == -1) {
-                if (isDefaultCB.isSelected()) {
+            if (isDefaultCB.isSelected()) {
+                if (arraySize == -1) {
                     int bodiesToGenerate = Integer.parseInt(edit1.getText());
                     if (bodiesToGenerate > 0) {
-                        int diameter = 70;
+                        int diameter = Integer.parseInt(edit4.getText());
                         int spaceSizeX = BodiesGenerator.calculateSpaceSize(true, diameter, diameter)[0];
                         int spaceSizeY = BodiesGenerator.calculateSpaceSize(true, diameter, diameter)[1];
                         int spaceSquare = spaceSizeX * spaceSizeY;
@@ -80,43 +79,63 @@ public class GeneratorPanel extends JPanel {
                             } else {
                                 BodiesGenerator.fillSpace(false);
                             }
+                            InstrumentsPanel.updateInstrumentsEdits(true);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Сгенерировать можно максимум " + spaceSquare + " тел!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Сгенерировать можно максимум " + spaceSquare + " тел(а)!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Сгенерировать можно минимум 1 шар!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Сгенерировать можно минимум 1 тело!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    String type = "circle";
-                    int x = Integer.parseInt(edit2.getText());
-                    int y = Integer.parseInt(edit3.getText());
-                    int diameter = Integer.parseInt(edit4.getText());
-                    int angle = Integer.parseInt(edit6.getText());
+                    JOptionPane.showMessageDialog(null, "Форма должна быть очищена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                String type = "circle";
+                int x = Integer.parseInt(edit2.getText());
+                int y = Integer.parseInt(edit3.getText());
+                int diameter = Integer.parseInt(edit4.getText());
+                int angle = Integer.parseInt(edit6.getText());
 
-                    int criticalX = Workspace.getFieldWalls("right");
-                    int criticalY = Workspace.getFieldWalls("bottom");
+                int criticalX = Workspace.getFieldWalls("right");
+                int criticalY = Workspace.getFieldWalls("bottom");
+                boolean isIntersect = false;
 
-                    if (isSquareSelected.isSelected()) {
-                        type = "square";
+                if (isSquareSelected.isSelected()) {
+                    type = "square";
+                }
+
+                for (int i = 0; i < arraySize; i++) {
+                    Bodies body = BodiesGenerator.getBodyByID(i);
+                    double centerX1 = Animations.getBodyCenter(x, diameter);
+                    double centerY1 = Animations.getBodyCenter(y, diameter);
+                    double centerX2 = Animations.getBodyCenter(body.x, body.width);
+                    double centerY2 = Animations.getBodyCenter(body.y, body.height);
+
+                    if (type.equals("circle") && body.type.equals("circle")) {
+                        double sumRadius = diameter / 2 + body.width / 2;
+                        if (Animations.getDistanceBetweenPoints2D(centerX1, centerY1, centerX2, centerY2) <= sumRadius) {
+                            isIntersect = true;
+                        }
                     }
+                }
+
+                if (!isIntersect) {
                     if (x + diameter <= criticalX || y + diameter <= criticalY) {
                         if (x >= 0 && y >= 0 && x <= criticalX - diameter && y <= criticalY - diameter) {
-                            BodiesGenerator.fillArrayManually(1, type, x, y, diameter, diameter, angle);
+                            BodiesGenerator.fillArrayManually(type, x, y, diameter, diameter, angle);
+                            InstrumentsPanel.updateInstrumentsEdits(true);
                         } else {
                             JOptionPane.showMessageDialog(null, "Неверно заданы координаты!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Ширина тела превышает размеры формы!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Тело пересекается с другими телами!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Форма должна быть очищена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-
-    // Добавить добавление к старым шарам новые
-    // Массиву тел можно задавать радиусы
 
     public class DeleteActionListener implements ActionListener {
 
@@ -130,6 +149,7 @@ public class GeneratorPanel extends JPanel {
                     if (BodiesGenerator.getBodyByID(bodyToDelete) != null) {
                         BodiesGenerator.deleteBody(bodyToDelete);
                         BodiesGenerator.updateBodiesID();
+                        InstrumentsPanel.updateInstrumentsEdits(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "Неверные данные!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
@@ -151,6 +171,7 @@ public class GeneratorPanel extends JPanel {
             if (arraySize != -1) {
                 for (int i = 0; i < arraySize; i++) {
                     BodiesGenerator.clearArray();
+                    InstrumentsPanel.updateInstrumentsEdits(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "На форме нет ни одного тела!", "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -166,14 +187,12 @@ public class GeneratorPanel extends JPanel {
                 edit1.setEnabled(true);
                 edit2.setEnabled(false);
                 edit3.setEnabled(false);
-                edit4.setEnabled(false);
                 edit6.setEnabled(false);
                 isRandomCB.setEnabled(true);
             } else {
                 edit1.setEnabled(false);
                 edit2.setEnabled(true);
                 edit3.setEnabled(true);
-                edit4.setEnabled(true);
                 edit6.setEnabled(true);
                 isRandomCB.setEnabled(false);
             }
@@ -213,7 +232,6 @@ public class GeneratorPanel extends JPanel {
         label4.setBounds(10, 80, wS - 100, 25);
         add(label4);
         edit4.setBounds(wS - 80, 80, 70, 25);
-        edit4.setEnabled(false);
         add(edit4);
 
         label5.setBounds(10, 115, wS - 100, 25);

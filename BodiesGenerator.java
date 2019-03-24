@@ -35,9 +35,13 @@ public class BodiesGenerator {
         }
     }
 
-    public static void fillArrayManually(int amount, String type, double x, double y, double width, double height, double angle) {
-        for (int i = 0; i < amount; i++) {
-            body.add(new Bodies(i, type, x, y, width, height, angle));
+    public static void fillArrayManually(String type, double x, double y, double width, double height, double angle) {
+        int arraySize = getBodiesArraySize();
+
+        if (arraySize == -1) {
+            body.add(new Bodies(0, type, x, y, width, height, angle));
+        } else {
+            body.add(new Bodies(getBodiesArraySize(), type, x, y, width, height, angle));
         }
     }
 
