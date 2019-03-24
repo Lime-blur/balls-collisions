@@ -15,6 +15,7 @@ public class BodiesGenerator {
     }
 
     public static void deleteBody(int indexToDelete) { body.remove(indexToDelete); }
+    public static void clearArray() { body.clear(); }
 
     public static void updateBodiesID() {
         for (int i = 0; i < body.size(); i++) {
