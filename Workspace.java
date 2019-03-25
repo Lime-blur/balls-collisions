@@ -29,6 +29,14 @@ public class Workspace {
         return 0;
     }
 
+    public static int getGeneratorWindowSize(String value) {
+        if (value.equals("width"))
+            return 200;
+        if (value.equals("height"))
+            return 500;
+        return 0;
+    }
+
     public static int getWindowSize(String value) {
         if (value.equals("width"))
             return windowWidth;

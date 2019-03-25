@@ -14,7 +14,7 @@ public class InstrumentsPanel extends JPanel {
     private static JLabel label4 = new JLabel("Высота тела:");
     private static JLabel label5 = new JLabel("Угол:");
 
-    private static JTextField edit1 = new JTextField("1-60");
+    private static JTextField edit1 = new JTextField("1");
     private static JTextField edit2 = new JTextField("3");
     private static JTextField edit3 = new JTextField("20");
     private static JTextField edit4 = new JTextField("20");
@@ -32,6 +32,17 @@ public class InstrumentsPanel extends JPanel {
                 Workspace.getInstrumentWindowSize("height")
         ));
         addPanelComponents();
+    }
+
+    public static void updateInstrumentsEdits(boolean updateRange) {
+        int arraySize = BodiesGenerator.getBodiesArraySize();
+        if (updateRange) {
+            if (arraySize != -1 && arraySize != 1) {
+                edit1.setText("1-" + arraySize);
+            } else {
+                edit1.setText("1");
+            }
+        }
     }
 
     public static void updateInstrumentsEdits() {
@@ -77,7 +88,7 @@ public class InstrumentsPanel extends JPanel {
                                 Bodies body = BodiesGenerator.getBodyByID(stringResult - 1);
                                 body.setBodyAngle(body.getBodyAngle(), Integer.parseInt(edit2.getText()));
                                 body.width = Integer.parseInt(edit3.getText());
-                                body.height = Integer.parseInt(edit4.getText());
+                                body.height = Integer.parseInt(edit3.getText());
                                 body.setBodyAngle(Integer.parseInt(edit5.getText()));
                             }
                         } else {
@@ -88,7 +99,7 @@ public class InstrumentsPanel extends JPanel {
                                     Bodies body = BodiesGenerator.getBodyByID(i);
                                     body.setBodyAngle(body.getBodyAngle(), Integer.parseInt(edit2.getText()));
                                     body.width = Integer.parseInt(edit3.getText());
-                                    body.height = Integer.parseInt(edit4.getText());
+                                    body.height = Integer.parseInt(edit3.getText());
                                     body.setBodyAngle(Integer.parseInt(edit5.getText()));
                                 }
                             } else {
@@ -124,6 +135,7 @@ public class InstrumentsPanel extends JPanel {
                 k++;
             }
         }
+        edit4.setEnabled(false);
 
         acceptButton.addActionListener(acceptListener);
         add(acceptButton);

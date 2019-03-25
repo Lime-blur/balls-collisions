@@ -211,7 +211,6 @@ public class CreateGUI extends JPanel{
      */
 
     public void createButtons() {
-
         button1.setFocusPainted(false);
         button2.setFocusPainted(false);
         button3.setFocusPainted(false);
@@ -238,6 +237,8 @@ public class CreateGUI extends JPanel{
         add(button4);
 
         checkBox1.setBounds(5, 460, 135, 30);
+        checkBox1.setBackground(Color.DARK_GRAY);
+        checkBox1.setForeground(Color.WHITE);
         add(checkBox1);
     }
 

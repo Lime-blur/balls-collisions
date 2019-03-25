@@ -15,6 +15,7 @@ public class BodiesGenerator {
     }
 
     public static void deleteBody(int indexToDelete) { body.remove(indexToDelete); }
+    public static void clearArray() { body.clear(); }
 
     public static void updateBodiesID() {
         for (int i = 0; i < body.size(); i++) {
@@ -34,9 +35,13 @@ public class BodiesGenerator {
         }
     }
 
-    public static void fillArrayManually(int amount, String type, double x, double y, double width, double height, double angle) {
-        for (int i = 0; i < amount; i++) {
-            body.add(new Bodies(i, type, x, y, width, height, angle));
+    public static void fillArrayManually(String type, double x, double y, double width, double height, double angle) {
+        int arraySize = getBodiesArraySize();
+
+        if (arraySize == -1) {
+            body.add(new Bodies(0, type, x, y, width, height, angle));
+        } else {
+            body.add(new Bodies(getBodiesArraySize(), type, x, y, width, height, angle));
         }
     }
 
@@ -71,11 +76,19 @@ public class BodiesGenerator {
         return maxSize;
     }
 
-    public static int[] calculateSpaceSize() {
+    public static int[] calculateSpaceSize(boolean isCustom, int sX, int sY) {
         int spaceWidth = Workspace.getFieldWalls("right") - Workspace.getFieldWalls("left");
         int spaceHeight = Workspace.getFieldWalls("bottom") - Workspace.getFieldWalls("top");
-        double maxWidth = findMaxBodySize("width");
-        double maxHeight = findMaxBodySize("height");
+        double maxWidth;
+        double maxHeight;
+
+        if (isCustom) {
+            maxWidth = sX;
+            maxHeight = sY;
+        } else {
+            maxWidth = findMaxBodySize("width");
+            maxHeight = findMaxBodySize("height");
+        }
 
         if (maxHeight != -1 && maxWidth != -1) {
             if (maxHeight > maxWidth || maxWidth > maxHeight) {
@@ -90,8 +103,8 @@ public class BodiesGenerator {
     }
 
     public static void fillSpace(boolean isRandom) {
-        int spaceSizeX = calculateSpaceSize()[0];
-        int spaceSizeY = calculateSpaceSize()[1];
+        int spaceSizeX = calculateSpaceSize(false, 0, 0)[0];
+        int spaceSizeY = calculateSpaceSize(false, 0, 0)[1];
         int factorX = 0, factorY = 1;
 
         if (spaceSizeX > 0 && spaceSizeY > 0) {
