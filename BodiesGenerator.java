@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BodiesGenerator {
 
-    public static ArrayList<Bodies> body = new ArrayList<>();;
+    public static ArrayList<Bodies> body = new ArrayList<>();
 
     public static int getBodiesArraySize() {
         if (body.isEmpty()) {
