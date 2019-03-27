@@ -1,10 +1,13 @@
 package ActionScript;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 public class Animations {
 
     private static boolean isRunning = false;
     private static boolean isReloading = false;
-    private static int delayValue = 10;
+    private static int delayValue = 3;
 
     public static boolean isBodyRunning() { return isRunning; }
     public static void setBodyRunning(boolean value) { isRunning = value; }
@@ -72,35 +75,61 @@ public class Animations {
         );
     }
 
+    /* CORE */
+
     public static void checkBodiesPositions(Bodies body1, Bodies body2) {
         double centerX1 = getBodyCenter(body1.x, body1.width);
         double centerY1 = getBodyCenter(body1.y, body1.height);
         double centerX2 = getBodyCenter(body2.x, body2.width);
         double centerY2 = getBodyCenter(body2.y, body2.height);
         if (body1.type.equals("circle") && body2.type.equals("circle")) {
-            double sumRadius = body1.width / 2 + body2.width / 2;
-            if (getDistanceBetweenPoints2D(centerX1, centerY1, centerX2, centerY2) <= sumRadius) {
+            double radius1 = body1.width / 2;
+            double radius2 = body2.width / 2;
+            double xDist = centerX1 - centerX2;
+            double yDist = centerY1 - centerY2;
+            double distSquared = xDist * xDist + yDist * yDist;
+            if (distSquared <= (radius1 + radius2) * (radius1 + radius2)) {
+                double xVelocity = body2.vectorX - body1.vectorX;
+                double yVelocity = body2.vectorY - body1.vectorY;
+                double dotProduct = xDist * xVelocity + yDist * yVelocity;
+                if(dotProduct > 0) {
 
-                double numerator1 = (body1.vectorX - body2.vectorX) * (centerX1 - centerX2) + (body1.vectorY - body2.vectorY) * (centerY1 - centerY2);
-                double cosinus1 = (centerX1 * centerX2 + centerY1 * centerY2) / Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2));
-                double denominator1 = Math.pow(centerX1, 2) + Math.pow(centerY1, 2) + Math.pow(centerX2, 2) + Math.pow(centerY2, 2) - 2 * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * cosinus1;
-                double factor1 = numerator1 / denominator1;
+                    double numerator1 = (body1.vectorX - body2.vectorX) * (centerX1 - centerX2) + (body1.vectorY - body2.vectorY) * (centerY1 - centerY2);
+                    double cosinus1 = (centerX1 * centerX2 + centerY1 * centerY2) / Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2));
+                    double denominator1 = Math.pow(centerX1, 2) + Math.pow(centerY1, 2) + Math.pow(centerX2, 2) + Math.pow(centerY2, 2) - 2 * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * cosinus1;
+                    double factor1 = numerator1 / denominator1;
 
-                double fVectorX1 = body1.vectorX - factor1 * (centerX1 - centerX2);
-                double fVectorY1 = body1.vectorY - factor1 * (centerY1 - centerY2);
+                    double fVectorX1 = body1.vectorX - factor1 * (centerX1 - centerX2);
+                    double fVectorY1 = body1.vectorY - factor1 * (centerY1 - centerY2);
 
-                double numerator2 = (body2.vectorX - body1.vectorX) * (centerX2 - centerX1) + (body2.vectorY - body1.vectorY) * (centerY2 - centerY1);
-                double cosinus2 = (centerX2 * centerX1 + centerY2 * centerY1) / Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2));
-                double denominator2 = Math.pow(centerX2, 2) + Math.pow(centerY2, 2) + Math.pow(centerX1, 2) + Math.pow(centerY1, 2) - 2 * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * cosinus2;
-                double factor2 = numerator2 / denominator2;
+                    double numerator2 = (body2.vectorX - body1.vectorX) * (centerX2 - centerX1) + (body2.vectorY - body1.vectorY) * (centerY2 - centerY1);
+                    double cosinus2 = (centerX2 * centerX1 + centerY2 * centerY1) / Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2));
+                    double denominator2 = Math.pow(centerX2, 2) + Math.pow(centerY2, 2) + Math.pow(centerX1, 2) + Math.pow(centerY1, 2) - 2 * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * cosinus2;
+                    double factor2 = numerator2 / denominator2;
 
-                double fVectorX2 = body2.vectorX - factor2 * (centerX2 - centerX1);
-                double fVectorY2 = body2.vectorY - factor2 * (centerY2 - centerY1);
+                    double fVectorX2 = body2.vectorX - factor2 * (centerX2 - centerX1);
+                    double fVectorY2 = body2.vectorY - factor2 * (centerY2 - centerY1);
 
-                body1.vectorX = fVectorX2;
-                body1.vectorY = fVectorY2;
-                body2.vectorX = fVectorX1;
-                body2.vectorY = fVectorY1;
+                    body1.vectorX = fVectorX2;
+                    body1.vectorY = fVectorY2;
+                    body2.vectorX = fVectorX1;
+                    body2.vectorY = fVectorY1;
+
+                    /*
+                    double collisionScale = dotProduct / distSquared;
+                    double xCollision = xDist * collisionScale;
+                    double yCollision = yDist * collisionScale;
+
+                    double combinedMass = 20 + 20;
+                    double collisionWeightA = 2 * 20 / combinedMass;
+                    double collisionWeightB = 2 * 20 / combinedMass;
+
+                    body1.vectorX += collisionWeightA * xCollision;
+                    body1.vectorY += collisionWeightA * yCollision;
+                    body2.vectorX -= collisionWeightB * xCollision;
+                    body2.vectorY -= collisionWeightB * yCollision;
+                    */
+                }
             }
         }
     }
