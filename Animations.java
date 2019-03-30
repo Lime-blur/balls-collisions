@@ -121,8 +121,8 @@ public class Animations {
                     double yCollision = yDist * collisionScale;
 
                     double combinedMass = body1.mass + body2.mass;
-                    double collisionWeightA = 2 * body1.mass / combinedMass;
-                    double collisionWeightB = 2 * body2.mass / combinedMass;
+                    double collisionWeightA = 2 * body2.mass / combinedMass;
+                    double collisionWeightB = 2 * body1.mass / combinedMass;
 
                     body1.vectorX += collisionWeightA * xCollision;
                     body1.vectorY += collisionWeightA * yCollision;

@@ -8,12 +8,12 @@ public class Bodies {
     public double x, y, width, height;
     public double vectorX, vectorY;
     public double angle;
-    public double bodySpeed = 3;
+    public double bodySpeed;
 
-    public double mass = 3;
+    public double mass;
     public boolean isCollide = false;
 
-    public Bodies(int id, String type, double width, double height, double angle, double mass) {
+    public Bodies(int id, String type, double width, double height, double angle, double mass, double speed) {
         this.id = id;
         this.type = type;
         this.i_x = 0;
@@ -28,9 +28,10 @@ public class Bodies {
         this.vectorY = 0;
         this.angle = angle;
         this.mass = mass;
+        this.bodySpeed = speed;
     }
 
-    public Bodies(int id, String type, double x, double y, double width, double height, double angle, double mass) {
+    public Bodies(int id, String type, double x, double y, double width, double height, double angle, double mass, double speed) {
         this.id = id;
         this.type = type;
         this.i_x = x;
@@ -45,6 +46,7 @@ public class Bodies {
         this.vectorY = 0;
         this.angle = angle;
         this.mass = mass;
+        this.bodySpeed = speed;
     }
 
     public Bodies(int id,
@@ -53,7 +55,8 @@ public class Bodies {
                   double x, double y, double width, double height,
                   double vectorX, double vectorY,
                   double angle,
-                  double mass
+                  double mass,
+                  double speed
     ) {
         this.id = id;
         this.type = type;
@@ -69,11 +72,10 @@ public class Bodies {
         this.vectorY = vectorY;
         this.angle = angle;
         this.mass = mass;
+        this.bodySpeed = speed;
     }
 
     /* Current properties */
-
-    public double getBodyAngle() { return angle; }
 
     public void setBodyAngle(double value) {
         angle = value;

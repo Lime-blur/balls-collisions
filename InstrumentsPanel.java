@@ -34,7 +34,7 @@ public class InstrumentsPanel extends JPanel {
         addPanelComponents();
     }
 
-    private static boolean checkSymbol(JTextField edit, char smbl) {
+    public static boolean checkSymbol(JTextField edit, char smbl) {
         if (edit.getText().indexOf(smbl) == -1) {
             return false;
         } else {
@@ -96,7 +96,7 @@ public class InstrumentsPanel extends JPanel {
                                         JOptionPane.showMessageDialog(null, "Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
                                     } else {
                                         Bodies body = BodiesGenerator.getBodyByID(stringResult - 1);
-                                        body.setBodyAngle(body.getBodyAngle(), Double.parseDouble(edit2.getText()));
+                                        body.setBodyAngle(body.angle, Double.parseDouble(edit2.getText()));
                                         body.width = Integer.parseInt(edit3.getText());
                                         body.height = Integer.parseInt(edit3.getText());
                                         body.setBodyAngle(Integer.parseInt(edit5.getText()));
@@ -107,7 +107,7 @@ public class InstrumentsPanel extends JPanel {
                                     if (startResult > 0 && endResult < arraySize + 1 && startResult < endResult) {
                                         for (int i = startResult - 1; i < endResult; i++) {
                                             Bodies body = BodiesGenerator.getBodyByID(i);
-                                            body.setBodyAngle(body.getBodyAngle(), Double.parseDouble(edit2.getText()));
+                                            body.setBodyAngle(body.angle, Double.parseDouble(edit2.getText()));
                                             body.width = Integer.parseInt(edit3.getText());
                                             body.height = Integer.parseInt(edit3.getText());
                                             body.setBodyAngle(Integer.parseInt(edit5.getText()));
