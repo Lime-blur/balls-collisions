@@ -33,7 +33,7 @@ public class Workspace {
         if (value.equals("width"))
             return 200;
         if (value.equals("height"))
-            return 600;
+            return 570;
         return 0;
     }
 

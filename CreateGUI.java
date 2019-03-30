@@ -119,7 +119,7 @@ public class CreateGUI extends JPanel{
                     timer.start();
                     for (int i = 0; i < arraySize; i++) {
                         Bodies body = BodiesGenerator.getBodyByID(i);
-                        body.setBodyAngle(body.getBodyAngle());
+                        body.setBodyAngle(body.angle, body.bodySpeed);
                     }
                 }
             } else {
