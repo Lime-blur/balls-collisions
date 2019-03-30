@@ -17,6 +17,8 @@ public class GeneratorPanel extends JPanel {
     private static JLabel label4 = new JLabel("Ширина тела:", JLabel.RIGHT);
     private static JLabel label5 = new JLabel("Высота тела:", JLabel.RIGHT);
     private static JLabel label6 = new JLabel("Угол:", JLabel.RIGHT);
+    private static JLabel label8 = new JLabel("Масса:", JLabel.RIGHT);
+    private static JLabel label9 = new JLabel("Скорость:", JLabel.RIGHT);
 
     private static JTextField edit1 = new JTextField("1");
 
@@ -25,6 +27,8 @@ public class GeneratorPanel extends JPanel {
     private static JTextField edit4 = new JTextField("70");
     private static JTextField edit5 = new JTextField("70");
     private static JTextField edit6 = new JTextField("60");
+    private static JTextField edit8 = new JTextField("1");
+    private static JTextField edit9 = new JTextField("1.2");
 
     private static ButtonGroup bgrp = new ButtonGroup();
     private static JRadioButton isCircleSelected = new JRadioButton("Шар");
@@ -32,6 +36,7 @@ public class GeneratorPanel extends JPanel {
 
     private static JCheckBox isRandomCB = new JCheckBox("Случайное расположение");
     private static JCheckBox isDefaultCB = new JCheckBox("По умолчанию");
+    private static JCheckBox isDefaultMass = new JCheckBox("Высчитать массу автоматически");
 
     private static JButton generateButton = new JButton("Сгенерировать");
 
@@ -224,6 +229,7 @@ public class GeneratorPanel extends JPanel {
         edit2.setBounds(35, 45, 50, 25);
         edit2.setEnabled(false);
         add(edit2);
+
         label3.setBounds(95, 45, 15, 25);
         add(label3);
         edit3.setBounds(120, 45, 50, 25);
@@ -247,40 +253,46 @@ public class GeneratorPanel extends JPanel {
         edit6.setEnabled(false);
         add(edit6);
 
+        label8.setBounds(10, 185, wS - 100, 25);
+        add(label8);
+        edit8.setBounds(wS - 80, 185, 70, 25);
+        edit8.setEnabled(false);
+        add(edit8);
+
         bgrp.add(isCircleSelected);
         bgrp.add(isSquareSelected);
-        isCircleSelected.setBounds(10, 185, 80, 25);
+        isCircleSelected.setBounds(10, 220, 80, 25);
         isCircleSelected.setSelected(true);
         add(isCircleSelected);
-        isSquareSelected.setBounds(90, 185, 80, 25);
+        isSquareSelected.setBounds(90, 220, 80, 25);
         isSquareSelected.setEnabled(false);
         add(isSquareSelected);
 
-        isRandomCB.setBounds(10, 220, Workspace.getGeneratorWindowSize("width") - 20, 25);
+        isRandomCB.setBounds(10, 255, Workspace.getGeneratorWindowSize("width") - 20, 25);
         isRandomCB.setSelected(true);
         add(isRandomCB);
 
-        isDefaultCB.setBounds(10, 255, Workspace.getGeneratorWindowSize("width") - 20, 25);
+        isDefaultCB.setBounds(10, 290, Workspace.getGeneratorWindowSize("width") - 20, 25);
         isDefaultCB.setSelected(true);
         isDefaultCB.addActionListener(checkEditsListener);
         add(isDefaultCB);
 
-        generateButton.setBounds(10, 290, Workspace.getGeneratorWindowSize("width") - 20, 25);
+        generateButton.setBounds(10, 325, Workspace.getGeneratorWindowSize("width") - 20, 25);
         generateButton.addActionListener(generateListener);
         add(generateButton);
 
         /* Удаление */
 
-        label7.setBounds(10, 360, wS - 100, 25);
+        label7.setBounds(10, 395, wS - 100, 25);
         add(label7);
-        edit7.setBounds(wS - 80, 360, 70, 25);
+        edit7.setBounds(wS - 80, 395, 70, 25);
         add(edit7);
 
-        deleteButton.setBounds(10, 395, Workspace.getGeneratorWindowSize("width") - 20, 25);
+        deleteButton.setBounds(10, 430, Workspace.getGeneratorWindowSize("width") - 20, 25);
         add(deleteButton);
         deleteButton.addActionListener(deleteListener);
 
-        clearFormButton.setBounds(10, 430, Workspace.getGeneratorWindowSize("width") - 20, 25);
+        clearFormButton.setBounds(10, 465, Workspace.getGeneratorWindowSize("width") - 20, 25);
         add(clearFormButton);
         clearFormButton.addActionListener(clearFormListener);
     }
