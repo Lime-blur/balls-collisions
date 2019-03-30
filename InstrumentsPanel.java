@@ -15,9 +15,9 @@ public class InstrumentsPanel extends JPanel {
     private static JLabel label5 = new JLabel("Угол:");
 
     private static JTextField edit1 = new JTextField("1");
-    private static JTextField edit2 = new JTextField("3");
-    private static JTextField edit3 = new JTextField("20");
-    private static JTextField edit4 = new JTextField("20");
+    private static JTextField edit2 = new JTextField("1.2");
+    private static JTextField edit3 = new JTextField("70");
+    private static JTextField edit4 = new JTextField("70");
     private static JTextField edit5 = new JTextField("60");
 
     private static JButton acceptButton = new JButton("Применить");
@@ -32,6 +32,14 @@ public class InstrumentsPanel extends JPanel {
                 Workspace.getInstrumentWindowSize("height")
         ));
         addPanelComponents();
+    }
+
+    private static boolean checkSymbol(JTextField edit, char smbl) {
+        if (edit.getText().indexOf(smbl) == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static void updateInstrumentsEdits(boolean updateRange) {
@@ -75,42 +83,50 @@ public class InstrumentsPanel extends JPanel {
             int arraySize = BodiesGenerator.getBodiesArraySize();
 
             if (arraySize != -1) {
-                if (Integer.parseInt(edit2.getText()) > 0) {
-                    int spaceWidth = Workspace.getFieldWalls("right") - Workspace.getFieldWalls("left");
-                    int spaceHeight = Workspace.getFieldWalls("bottom") - Workspace.getFieldWalls("top");
-                    if (Integer.parseInt(edit3.getText()) < spaceWidth && Integer.parseInt(edit4.getText()) < spaceHeight) {
-                        String stringToParse = edit1.getText();
-                        if (stringToParse.indexOf('-') == -1) {
-                            int stringResult = Integer.parseInt(stringToParse);
-                            if (stringResult < 1 || stringResult > arraySize) {
-                                JOptionPane.showMessageDialog(null, "Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                Bodies body = BodiesGenerator.getBodyByID(stringResult - 1);
-                                body.setBodyAngle(body.getBodyAngle(), Integer.parseInt(edit2.getText()));
-                                body.width = Integer.parseInt(edit3.getText());
-                                body.height = Integer.parseInt(edit3.getText());
-                                body.setBodyAngle(Integer.parseInt(edit5.getText()));
-                            }
-                        } else {
-                            int startResult = Integer.parseInt(stringToParse.substring(0, stringToParse.indexOf('-')));
-                            int endResult = Integer.parseInt(stringToParse.substring(stringToParse.indexOf('-') + 1, stringToParse.length()));
-                            if (startResult > 0 && endResult < arraySize + 1 && startResult < endResult) {
-                                for (int i = startResult - 1; i < endResult; i++) {
-                                    Bodies body = BodiesGenerator.getBodyByID(i);
-                                    body.setBodyAngle(body.getBodyAngle(), Integer.parseInt(edit2.getText()));
-                                    body.width = Integer.parseInt(edit3.getText());
-                                    body.height = Integer.parseInt(edit3.getText());
-                                    body.setBodyAngle(Integer.parseInt(edit5.getText()));
+                if (!checkSymbol(edit1, ',') && !checkSymbol(edit2, ',') && !checkSymbol(edit3, ',') && !checkSymbol(edit4, ',') && !checkSymbol(edit5, ',')) {
+                    if (!checkSymbol(edit1, '.') && !checkSymbol(edit3, '.') && !checkSymbol(edit4, '.') && !checkSymbol(edit5, ',')) {
+                        if (Double.parseDouble(edit2.getText()) >= 0) {
+                            int spaceWidth = Workspace.getFieldWalls("right") - Workspace.getFieldWalls("left");
+                            int spaceHeight = Workspace.getFieldWalls("bottom") - Workspace.getFieldWalls("top");
+                            if (Integer.parseInt(edit3.getText()) < spaceWidth && Integer.parseInt(edit4.getText()) < spaceHeight) {
+                                String stringToParse = edit1.getText();
+                                if (stringToParse.indexOf('-') == -1) {
+                                    int stringResult = Integer.parseInt(stringToParse);
+                                    if (stringResult < 1 || stringResult > arraySize) {
+                                        JOptionPane.showMessageDialog(null, "Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                    } else {
+                                        Bodies body = BodiesGenerator.getBodyByID(stringResult - 1);
+                                        body.setBodyAngle(body.getBodyAngle(), Double.parseDouble(edit2.getText()));
+                                        body.width = Integer.parseInt(edit3.getText());
+                                        body.height = Integer.parseInt(edit3.getText());
+                                        body.setBodyAngle(Integer.parseInt(edit5.getText()));
+                                    }
+                                } else {
+                                    int startResult = Integer.parseInt(stringToParse.substring(0, stringToParse.indexOf('-')));
+                                    int endResult = Integer.parseInt(stringToParse.substring(stringToParse.indexOf('-') + 1, stringToParse.length()));
+                                    if (startResult > 0 && endResult < arraySize + 1 && startResult < endResult) {
+                                        for (int i = startResult - 1; i < endResult; i++) {
+                                            Bodies body = BodiesGenerator.getBodyByID(i);
+                                            body.setBodyAngle(body.getBodyAngle(), Double.parseDouble(edit2.getText()));
+                                            body.width = Integer.parseInt(edit3.getText());
+                                            body.height = Integer.parseInt(edit3.getText());
+                                            body.setBodyAngle(Integer.parseInt(edit5.getText()));
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Ошибка диапозона! Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                    }
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "Ошибка диапозона! Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Ошибка измерений! Максимальная ширина: " + spaceWidth + ", максимальная высота: " + spaceHeight, "Ошибка", JOptionPane.ERROR_MESSAGE);
                             }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Ошибка скорости! Минимальное значение: 0", "Ошибка", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Ошибка измерений! Максимальная ширина: " + spaceWidth + ", максимальная высота: " + spaceHeight, "Ошибка", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Ошибка чисел! Требуются целые числа во всех полях кроме скорости!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Ошибка скорости! Минимальное значение: 1", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Ошибка знаков! Запятые запрещены!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

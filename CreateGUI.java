@@ -20,6 +20,7 @@ public class CreateGUI extends JPanel{
     private JButton button3 = new JButton("Сбросить");
     private JButton button4 = new JButton("Обновить форму");
     private JCheckBox checkBox1 = new JCheckBox("Показывать ID тел", true);
+    private JCheckBox checkBox2 = new JCheckBox("Менять цвет тел при соударении", false);
 
     /* события и слушатели */
     private ActionListener runListener = new RunActionListener();
@@ -216,6 +217,7 @@ public class CreateGUI extends JPanel{
         button3.setFocusPainted(false);
         button4.setFocusPainted(false);
         checkBox1.setFocusPainted(false);
+        checkBox2.setFocusPainted(false);
 
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -240,6 +242,11 @@ public class CreateGUI extends JPanel{
         checkBox1.setBackground(Color.DARK_GRAY);
         checkBox1.setForeground(Color.WHITE);
         add(checkBox1);
+
+        checkBox2.setBounds(160, 460, 225, 30);
+        checkBox2.setBackground(Color.DARK_GRAY);
+        checkBox2.setForeground(Color.WHITE);
+        add(checkBox2);
     }
 
     /**
@@ -286,6 +293,7 @@ public class CreateGUI extends JPanel{
             for (int i = 0; i < arraySize; i++) {
                 Bodies body = BodiesGenerator.getBodyByID(i);
                 if (body.type.equals("square")) {
+                    g.setColor(Color.RED);
                     g.drawRect(
                             (int) body.x,
                             (int) body.y,
@@ -294,13 +302,23 @@ public class CreateGUI extends JPanel{
                     );
                 }
                 if (body.type.equals("circle")) {
-                    g.drawOval(
+                    if (checkBox2.isSelected()) {
+                        if (body.isCollide) {
+                            g.setColor(Color.BLUE);
+                        } else {
+                            g.setColor(Color.RED);
+                        }
+                    } else {
+                        g.setColor(Color.RED);
+                    }
+                    g.fillOval(
                             (int) body.x,
                             (int) body.y,
                             (int) body.width,
                             (int) body.height
                     );
                     if (checkBox1.isSelected()) {
+                        g.setColor(Color.WHITE);
                         g.drawString(
                                 String.valueOf(body.id + 1),
                                 (int) Animations.getBodyCenter(body.x, body.width),

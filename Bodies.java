@@ -10,7 +10,10 @@ public class Bodies {
     public double angle;
     public double bodySpeed = 3;
 
-    public Bodies(int id, String type, double width, double height, double angle) {
+    public double mass = 3;
+    public boolean isCollide = false;
+
+    public Bodies(int id, String type, double width, double height, double angle, double mass) {
         this.id = id;
         this.type = type;
         this.i_x = 0;
@@ -24,9 +27,10 @@ public class Bodies {
         this.vectorX = 0;
         this.vectorY = 0;
         this.angle = angle;
+        this.mass = mass;
     }
 
-    public Bodies(int id, String type, double x, double y, double width, double height, double angle) {
+    public Bodies(int id, String type, double x, double y, double width, double height, double angle, double mass) {
         this.id = id;
         this.type = type;
         this.i_x = x;
@@ -40,6 +44,7 @@ public class Bodies {
         this.vectorX = 0;
         this.vectorY = 0;
         this.angle = angle;
+        this.mass = mass;
     }
 
     public Bodies(int id,
@@ -47,7 +52,8 @@ public class Bodies {
                   double i_x, double i_y, double i_width, double i_height,
                   double x, double y, double width, double height,
                   double vectorX, double vectorY,
-                  double angle
+                  double angle,
+                  double mass
     ) {
         this.id = id;
         this.type = type;
@@ -62,6 +68,7 @@ public class Bodies {
         this.vectorX = vectorX;
         this.vectorY = vectorY;
         this.angle = angle;
+        this.mass = mass;
     }
 
     /* Current properties */

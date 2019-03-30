@@ -73,7 +73,7 @@ public class GeneratorPanel extends JPanel {
                         int spaceSizeY = BodiesGenerator.calculateSpaceSize(true, diameter, diameter)[1];
                         int spaceSquare = spaceSizeX * spaceSizeY;
                         if (bodiesToGenerate <= spaceSquare) {
-                            BodiesGenerator.fillArrayAutomatically(bodiesToGenerate, "circle", diameter, diameter, 60);
+                            BodiesGenerator.fillArrayAutomatically(bodiesToGenerate, "circle", diameter, diameter, 60, 20);
                             if (isRandomCB.isSelected()) {
                                 BodiesGenerator.fillSpace(true);
                             } else {
@@ -95,6 +95,7 @@ public class GeneratorPanel extends JPanel {
                 int y = Integer.parseInt(edit3.getText());
                 int diameter = Integer.parseInt(edit4.getText());
                 int angle = Integer.parseInt(edit6.getText());
+                int mass = 20;
 
                 int criticalX = Workspace.getFieldWalls("right");
                 int criticalY = Workspace.getFieldWalls("bottom");
@@ -122,7 +123,7 @@ public class GeneratorPanel extends JPanel {
                 if (!isIntersect) {
                     if (x + diameter <= criticalX || y + diameter <= criticalY) {
                         if (x >= 0 && y >= 0 && x <= criticalX - diameter && y <= criticalY - diameter) {
-                            BodiesGenerator.fillArrayManually(type, x, y, diameter, diameter, angle);
+                            BodiesGenerator.fillArrayManually(type, x, y, diameter, diameter, angle, mass);
                             InstrumentsPanel.updateInstrumentsEdits(true);
                         } else {
                             JOptionPane.showMessageDialog(null, "Неверно заданы координаты!", "Ошибка", JOptionPane.ERROR_MESSAGE);
