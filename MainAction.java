@@ -23,8 +23,6 @@ public class MainAction extends JFrame {
 
         JFrame helpFrame = new JFrame("Instruments");
 
-        // sgdersterewrwerewr
-
         helpFrame.setType(Type.UTILITY);
         helpFrame.setAlwaysOnTop(true);
         helpFrame.getContentPane().add(new InstrumentsPanel());
