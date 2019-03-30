@@ -1,13 +1,12 @@
 package ActionScript;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Animations {
 
     private static boolean isRunning = false;
     private static boolean isReloading = false;
-    private static int delayValue = 3;
+    private static int delayValue = 5;
 
     public static boolean isBodyRunning() { return isRunning; }
     public static void setBodyRunning(boolean value) { isRunning = value; }
@@ -92,8 +91,9 @@ public class Animations {
                 double xVelocity = body2.vectorX - body1.vectorX;
                 double yVelocity = body2.vectorY - body1.vectorY;
                 double dotProduct = xDist * xVelocity + yDist * yVelocity;
-                if(dotProduct > 0) {
+                if (dotProduct > 0) {
 
+                    /*
                     double numerator1 = (body1.vectorX - body2.vectorX) * (centerX1 - centerX2) + (body1.vectorY - body2.vectorY) * (centerY1 - centerY2);
                     double cosinus1 = (centerX1 * centerX2 + centerY1 * centerY2) / Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2));
                     double denominator1 = Math.pow(centerX1, 2) + Math.pow(centerY1, 2) + Math.pow(centerX2, 2) + Math.pow(centerY2, 2) - 2 * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * cosinus1;
@@ -114,21 +114,31 @@ public class Animations {
                     body1.vectorY = fVectorY2;
                     body2.vectorX = fVectorX1;
                     body2.vectorY = fVectorY1;
+                    */
 
-                    /*
                     double collisionScale = dotProduct / distSquared;
                     double xCollision = xDist * collisionScale;
                     double yCollision = yDist * collisionScale;
 
-                    double combinedMass = 20 + 20;
-                    double collisionWeightA = 2 * 20 / combinedMass;
-                    double collisionWeightB = 2 * 20 / combinedMass;
+                    double combinedMass = body1.mass + body2.mass;
+                    double collisionWeightA = 2 * body1.mass / combinedMass;
+                    double collisionWeightB = 2 * body2.mass / combinedMass;
 
                     body1.vectorX += collisionWeightA * xCollision;
                     body1.vectorY += collisionWeightA * yCollision;
                     body2.vectorX -= collisionWeightB * xCollision;
                     body2.vectorY -= collisionWeightB * yCollision;
-                    */
+
+                    if (body1.isCollide) {
+                        body1.isCollide = false;
+                    } else {
+                        body1.isCollide = true;
+                    }
+                    if (body2.isCollide) {
+                        body2.isCollide = false;
+                    } else {
+                        body2.isCollide = true;
+                    }
                 }
             }
         }

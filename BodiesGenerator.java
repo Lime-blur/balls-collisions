@@ -35,19 +35,19 @@ public class BodiesGenerator {
         }
     }
 
-    public static void fillArrayManually(String type, double x, double y, double width, double height, double angle) {
+    public static void fillArrayManually(String type, double x, double y, double width, double height, double angle, double mass) {
         int arraySize = getBodiesArraySize();
 
         if (arraySize == -1) {
-            body.add(new Bodies(0, type, x, y, width, height, angle));
+            body.add(new Bodies(0, type, x, y, width, height, angle, mass));
         } else {
-            body.add(new Bodies(getBodiesArraySize(), type, x, y, width, height, angle));
+            body.add(new Bodies(getBodiesArraySize(), type, x, y, width, height, angle, mass));
         }
     }
 
-    public static void fillArrayAutomatically(int amount, String type, double width, double height, double angle) {
+    public static void fillArrayAutomatically(int amount, String type, double width, double height, double angle, double mass) {
         for (int i = 0; i < amount; i++) {
-            body.add(new Bodies(i, type, width, height, angle));
+            body.add(new Bodies(i, type, width, height, angle, mass));
         }
     }
 
