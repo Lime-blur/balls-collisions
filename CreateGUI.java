@@ -254,6 +254,8 @@ public class CreateGUI extends JPanel{
      * метод, отрисовывающий графические элементы.
      */
 
+    double totalImpulse = 0, totalEnergy = 0;
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -326,8 +328,17 @@ public class CreateGUI extends JPanel{
                         );
                     }
                 }
+                totalImpulse = totalImpulse + Physics.getBodyImpulse(body);
+                totalEnergy = totalEnergy + Physics.getBodyKineticEnergy(body);
             }
         }
+
+        g.setColor(Color.ORANGE);
+        g.setFont(new Font("default", Font.BOLD, 12));
+        g.drawString("p - Импульс системы: " + String.valueOf(Math.rint(100.0 * totalImpulse) / 100.0), 400, 470);
+        g.drawString("K - Энергия системы: " + String.valueOf(Math.rint(100.0 * totalEnergy) / 100.0), 400, 490);
+
+        totalImpulse = 0; totalEnergy = 0;
     }
 
 }
