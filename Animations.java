@@ -93,7 +93,7 @@ public class Animations {
                 double dotProduct = xDist * xVelocity + yDist * yVelocity;
                 if (dotProduct > 0) {
 
-                    /*
+
                     double numerator1 = (body1.vectorX - body2.vectorX) * (centerX1 - centerX2) + (body1.vectorY - body2.vectorY) * (centerY1 - centerY2);
                     double cosinus1 = (centerX1 * centerX2 + centerY1 * centerY2) / Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2));
                     double denominator1 = Math.pow(centerX1, 2) + Math.pow(centerY1, 2) + Math.pow(centerX2, 2) + Math.pow(centerY2, 2) - 2 * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * cosinus1;
@@ -114,8 +114,8 @@ public class Animations {
                     body1.vectorY = fVectorY2;
                     body2.vectorX = fVectorX1;
                     body2.vectorY = fVectorY1;
-                    */
 
+/*
                     double collisionScale = dotProduct / distSquared;
                     double xCollision = xDist * collisionScale;
                     double yCollision = yDist * collisionScale;
@@ -128,7 +128,7 @@ public class Animations {
                     body1.vectorY += collisionWeightA * yCollision;
                     body2.vectorX -= collisionWeightB * xCollision;
                     body2.vectorY -= collisionWeightB * yCollision;
-
+*/
                     if (body1.isCollide) {
                         body1.isCollide = false;
                     } else {
