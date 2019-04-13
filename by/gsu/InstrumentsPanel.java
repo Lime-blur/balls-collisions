@@ -144,8 +144,6 @@ public class InstrumentsPanel extends JPanel {
 
         int wS = Workspace.getInstrumentWindowSize("width");
 
-        /* Создание */
-
         label1.setBounds(10, 10, wS - 100, 25);
         add(label1);
         edit1.setBounds(wS - 80, 10, 70, 25);
