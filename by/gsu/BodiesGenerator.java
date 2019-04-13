@@ -1,4 +1,4 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 import java.util.ArrayList;
 

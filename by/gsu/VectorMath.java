@@ -1,4 +1,4 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 public class VectorMath {
 
