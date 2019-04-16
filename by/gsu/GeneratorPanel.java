@@ -1,7 +1,6 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -137,7 +136,7 @@ public class GeneratorPanel extends JPanel {
 
                             if (type.equals("circle") && body.type.equals("circle")) {
                                 double sumRadius = diameter / 2 + body.width / 2;
-                                if (Animations.getDistanceBetweenPoints2D(centerX1, centerY1, centerX2, centerY2) <= sumRadius) {
+                                if (VectorMath.getDistance(centerX1, centerY1, centerX2, centerY2) <= sumRadius) {
                                     isIntersect = true;
                                 }
                             }

@@ -1,11 +1,10 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 /**
  * наследник класса JPanel.
@@ -223,18 +222,22 @@ public class CreateGUI extends JPanel{
 
         setLayout(null);
         button1.setBounds(Workspace.getWindowSize("width") - 143, 10, 135, 30);
+        button1.setBackground(Color.GRAY);
         button1.addActionListener(runListener);
         add(button1);
 
         button2.setBounds(Workspace.getWindowSize("width") - 143, 45, 135, 30);
+        button2.setBackground(Color.GRAY);
         button2.addActionListener(stopListener);
         add(button2);
 
         button3.setBounds(Workspace.getWindowSize("width") - 143, 80, 135, 30);
+        button3.setBackground(Color.GRAY);
         button3.addActionListener(resetListener);
         add(button3);
 
         button4.setBounds(Workspace.getWindowSize("width") - 143, Workspace.getWindowSize("height") - 40, 135, 30);
+        button4.setBackground(Color.GRAY);
         button4.addActionListener(reloadListener);
         add(button4);
 
@@ -335,8 +338,8 @@ public class CreateGUI extends JPanel{
 
         g.setColor(Color.ORANGE);
         g.setFont(new Font("default", Font.BOLD, 12));
-        g.drawString("p - Импульс системы: " + String.valueOf(Math.rint(100.0 * totalImpulse) / 100.0), 400, 470);
-        g.drawString("K - Энергия системы: " + String.valueOf(Math.rint(100.0 * totalEnergy) / 100.0), 400, 490);
+        g.drawString("Импульс системы: " + String.valueOf(Math.rint(100.0 * totalImpulse) / 100.0), 400, 470);
+        g.drawString("Кинетич. энергия системы: " + String.valueOf(Math.rint(100.0 * totalEnergy) / 100.0), 400, 490);
 
         totalImpulse = 0; totalEnergy = 0;
     }

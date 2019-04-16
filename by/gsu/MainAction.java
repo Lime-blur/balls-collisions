@@ -1,4 +1,4 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +20,18 @@ public class MainAction extends JFrame {
         int windowHeight = Workspace.getWindowSize("height");
         int helpWindowWidth = Workspace.getInstrumentWindowSize("width");
         int generatorWindowWidth = Workspace.getGeneratorWindowSize("width");
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
 
         JFrame helpFrame = new JFrame("Instruments");
 

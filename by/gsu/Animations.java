@@ -1,6 +1,4 @@
-package ActionScript;
-
-import java.util.ArrayList;
+package ActionScript.by.gsu;
 
 public class Animations {
 
@@ -14,19 +12,6 @@ public class Animations {
     public static void setBodyReloading(boolean value) { isReloading = value; }
     public static int getBodyDelayValue() { return delayValue; }
     public static void setBodyDelayValue(int value) { delayValue = value; }
-
-    /* If there is a hypotenuse it will be 'a' parameter */
-    private static double getTriangleSide(boolean findHypotenuse, double a, double b) {
-        if (findHypotenuse) {
-            return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        } else {
-            return Math.sqrt(Math.pow(a, 2) - Math.pow(b, 2));
-        }
-    }
-
-    public static double getDistanceBetweenPoints2D(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-    }
 
     public static double getBodyCenter(double a, double width) { return a + (width / 2); }
 
@@ -81,44 +66,24 @@ public class Animations {
         double centerY1 = getBodyCenter(body1.y, body1.height);
         double centerX2 = getBodyCenter(body2.x, body2.width);
         double centerY2 = getBodyCenter(body2.y, body2.height);
+
         if (body1.type.equals("circle") && body2.type.equals("circle")) {
             double radius1 = body1.width / 2;
             double radius2 = body2.width / 2;
-            double xDist = centerX1 - centerX2;
-            double yDist = centerY1 - centerY2;
-            double distSquared = xDist * xDist + yDist * yDist;
-            if (distSquared <= (radius1 + radius2) * (radius1 + radius2)) {
-                double xVelocity = body2.vectorX - body1.vectorX;
-                double yVelocity = body2.vectorY - body1.vectorY;
-                double dotProduct = xDist * xVelocity + yDist * yVelocity;
+            double distSquared = VectorMath.getDistanceSquared(centerX1, centerY1, centerX2, centerY2);
+
+            if (distSquared <= Math.pow(radius1 + radius2, 2)) {
+                double dotProduct = VectorMath.dotProduct(
+                        centerX1 - centerX2, centerY1 - centerY2,
+                        body2.vectorX - body1.vectorX, body2.vectorY - body1.vectorY
+                );
+
                 if (dotProduct > 0) {
 
-
-                    double numerator1 = (body1.vectorX - body2.vectorX) * (centerX1 - centerX2) + (body1.vectorY - body2.vectorY) * (centerY1 - centerY2);
-                    double cosinus1 = (centerX1 * centerX2 + centerY1 * centerY2) / Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2));
-                    double denominator1 = Math.pow(centerX1, 2) + Math.pow(centerY1, 2) + Math.pow(centerX2, 2) + Math.pow(centerY2, 2) - 2 * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * cosinus1;
-                    double factor1 = numerator1 / denominator1;
-
-                    double fVectorX1 = body1.vectorX - factor1 * (centerX1 - centerX2);
-                    double fVectorY1 = body1.vectorY - factor1 * (centerY1 - centerY2);
-
-                    double numerator2 = (body2.vectorX - body1.vectorX) * (centerX2 - centerX1) + (body2.vectorY - body1.vectorY) * (centerY2 - centerY1);
-                    double cosinus2 = (centerX2 * centerX1 + centerY2 * centerY1) / Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2));
-                    double denominator2 = Math.pow(centerX2, 2) + Math.pow(centerY2, 2) + Math.pow(centerX1, 2) + Math.pow(centerY1, 2) - 2 * Math.sqrt(Math.pow(centerX2, 2) + Math.pow(centerY2, 2)) * Math.sqrt(Math.pow(centerX1, 2) + Math.pow(centerY1, 2)) * cosinus2;
-                    double factor2 = numerator2 / denominator2;
-
-                    double fVectorX2 = body2.vectorX - factor2 * (centerX2 - centerX1);
-                    double fVectorY2 = body2.vectorY - factor2 * (centerY2 - centerY1);
-
-                    body1.vectorX = fVectorX2;
-                    body1.vectorY = fVectorY2;
-                    body2.vectorX = fVectorX1;
-                    body2.vectorY = fVectorY1;
-
-/*
+                    /*
                     double collisionScale = dotProduct / distSquared;
-                    double xCollision = xDist * collisionScale;
-                    double yCollision = yDist * collisionScale;
+                    double xCollision = (centerX1 - centerX2) * collisionScale;
+                    double yCollision = (centerY1 - centerY2) * collisionScale;
 
                     double combinedMass = body1.mass + body2.mass;
                     double collisionWeightA = 2 * body2.mass / combinedMass;
@@ -128,7 +93,17 @@ public class Animations {
                     body1.vectorY += collisionWeightA * yCollision;
                     body2.vectorX -= collisionWeightB * xCollision;
                     body2.vectorY -= collisionWeightB * yCollision;
-*/
+                    */
+
+                    double speed[] = VectorMath.getBodiesSpeed(
+                            body1.vectorX, body1.vectorY, body2.vectorX, body2.vectorY,
+                            body1.mass, body2.mass);
+
+                    body1.vectorX = speed[0];
+                    body1.vectorY = speed[1];
+                    body2.vectorX = speed[2];
+                    body2.vectorY = speed[3];
+
                     if (body1.isCollide) {
                         body1.isCollide = false;
                     } else {

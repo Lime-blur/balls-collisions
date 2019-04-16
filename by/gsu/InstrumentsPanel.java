@@ -1,24 +1,25 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InstrumentsPanel extends JPanel {
 
-    private static JLabel label1 = new JLabel("ID тел(а):");
-    private static JLabel label2 = new JLabel("Скорость тела:");
-    private static JLabel label3 = new JLabel("Ширина тела:");
-    private static JLabel label4 = new JLabel("Высота тела:");
-    private static JLabel label5 = new JLabel("Угол:");
+    private static JLabel label1 = new JLabel("ID тел(а):", JLabel.RIGHT);
+    private static JLabel label2 = new JLabel("Скорость:", JLabel.RIGHT);
+    private static JLabel label3 = new JLabel("Ширина тела:", JLabel.RIGHT);
+    private static JLabel label4 = new JLabel("Высота тела:", JLabel.RIGHT);
+    private static JLabel label5 = new JLabel("Угол:", JLabel.RIGHT);
+    private static JLabel label6 = new JLabel("Масса:", JLabel.RIGHT);
 
     private static JTextField edit1 = new JTextField("1");
     private static JTextField edit2 = new JTextField("1.2");
     private static JTextField edit3 = new JTextField("70");
     private static JTextField edit4 = new JTextField("70");
     private static JTextField edit5 = new JTextField("60");
+    private static JTextField edit6 = new JTextField("1");
 
     private static JButton acceptButton = new JButton("Применить");
 
@@ -62,6 +63,7 @@ public class InstrumentsPanel extends JPanel {
             edit3.setText("" + (int) body.width);
             edit4.setText("" + (int) body.height);
             edit5.setText("" + (int) body.angle);
+            edit6.setText("" + (int) body.mass);
         }
     }
 
@@ -73,6 +75,7 @@ public class InstrumentsPanel extends JPanel {
             edit3.setText("" + (int) body.width);
             edit4.setText("" + (int) body.height);
             edit5.setText("" + (int) body.angle);
+            edit5.setText("" + (int) body.mass);
         }
     }
 
@@ -83,8 +86,8 @@ public class InstrumentsPanel extends JPanel {
             int arraySize = BodiesGenerator.getBodiesArraySize();
 
             if (arraySize != -1) {
-                if (!checkSymbol(edit1, ',') && !checkSymbol(edit2, ',') && !checkSymbol(edit3, ',') && !checkSymbol(edit4, ',') && !checkSymbol(edit5, ',')) {
-                    if (!checkSymbol(edit1, '.') && !checkSymbol(edit3, '.') && !checkSymbol(edit4, '.') && !checkSymbol(edit5, ',')) {
+                if (!checkSymbol(edit1, ',') && !checkSymbol(edit2, ',') && !checkSymbol(edit3, ',') && !checkSymbol(edit4, ',') && !checkSymbol(edit5, ',') && !checkSymbol(edit6, ',')) {
+                    if (!checkSymbol(edit1, '.') && !checkSymbol(edit3, '.') && !checkSymbol(edit4, '.') && !checkSymbol(edit5, '.') && !checkSymbol(edit6, '.')) {
                         if (Double.parseDouble(edit2.getText()) >= 0) {
                             int spaceWidth = Workspace.getFieldWalls("right") - Workspace.getFieldWalls("left");
                             int spaceHeight = Workspace.getFieldWalls("bottom") - Workspace.getFieldWalls("top");
@@ -100,6 +103,7 @@ public class InstrumentsPanel extends JPanel {
                                         body.width = Integer.parseInt(edit3.getText());
                                         body.height = Integer.parseInt(edit3.getText());
                                         body.setBodyAngle(Integer.parseInt(edit5.getText()));
+                                        body.mass = Integer.parseInt(edit6.getText());
                                     }
                                 } else {
                                     int startResult = Integer.parseInt(stringToParse.substring(0, stringToParse.indexOf('-')));
@@ -111,6 +115,7 @@ public class InstrumentsPanel extends JPanel {
                                             body.width = Integer.parseInt(edit3.getText());
                                             body.height = Integer.parseInt(edit3.getText());
                                             body.setBodyAngle(Integer.parseInt(edit5.getText()));
+                                            body.mass = Integer.parseInt(edit6.getText());
                                         }
                                     } else {
                                         JOptionPane.showMessageDialog(null, "Ошибка диапозона! Максимальное количество тел: " + arraySize, "Ошибка", JOptionPane.ERROR_MESSAGE);
@@ -133,26 +138,44 @@ public class InstrumentsPanel extends JPanel {
     }
 
     private void addPanelComponents() {
-        JTextField editsArray[] = {edit1, edit2, edit3, edit4, edit5};
-        JLabel labelsArray[] = {label1, label2, label3, label4, label5};
-        int j = 0, k = 0;
-
         acceptButton.setFocusPainted(false);
 
-        setBorder(new EmptyBorder(5, 10, 10, 10));
-        setLayout(new GridLayout(16, 1, 0, 6));
+        setLayout(null);
 
-        for (int i = 0; i < 10; i++) {
-            if (i % 2 == 0) {
-                add(labelsArray[j]);
-                j++;
-            } else {
-                add(editsArray[k]);
-                k++;
-            }
-        }
+        int wS = Workspace.getInstrumentWindowSize("width");
+
+        label1.setBounds(10, 10, wS - 100, 25);
+        add(label1);
+        edit1.setBounds(wS - 80, 10, 70, 25);
+        add(edit1);
+
+        label2.setBounds(10, 45, wS - 100, 25);
+        add(label2);
+        edit2.setBounds(wS - 80, 45, 70, 25);
+        add(edit2);
+
+        label3.setBounds(10, 80, wS - 100, 25);
+        add(label3);
+        edit3.setBounds(wS - 80, 80, 70, 25);
+        add(edit3);
+
+        label4.setBounds(10, 115, wS - 100, 25);
+        add(label4);
+        edit4.setBounds(wS - 80, 115, 70, 25);
+        add(edit4);
         edit4.setEnabled(false);
 
+        label5.setBounds(10, 150, wS - 100, 25);
+        add(label5);
+        edit5.setBounds(wS - 80, 150, 70, 25);
+        add(edit5);
+
+        label6.setBounds(10, 185, wS - 100, 25);
+        add(label6);
+        edit6.setBounds(wS - 80, 185, 70, 25);
+        add(edit6);
+
+        acceptButton.setBounds(10, 220, Workspace.getGeneratorWindowSize("width") - 20, 25);
         acceptButton.addActionListener(acceptListener);
         add(acceptButton);
     }

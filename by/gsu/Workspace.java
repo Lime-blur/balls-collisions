@@ -1,4 +1,4 @@
-package ActionScript;
+package ActionScript.by.gsu;
 
 public class Workspace {
 
@@ -23,9 +23,9 @@ public class Workspace {
 
     public static int getInstrumentWindowSize(String value) {
         if (value.equals("width"))
-            return 160;
+            return 200;
         if (value.equals("height"))
-            return 500;
+            return 255;
         return 0;
     }
 
