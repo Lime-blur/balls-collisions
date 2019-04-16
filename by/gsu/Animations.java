@@ -95,9 +95,11 @@ public class Animations {
                     body2.vectorY -= collisionWeightB * yCollision;
                     */
 
-                    double speed[] = VectorMath.getBodiesSpeed(
+                    double speed[] = VectorMath.getNewBodiesSpeed(
+                            radius1, radius2,
+                            centerX1, centerY1, centerX2, centerY2,
                             body1.vectorX, body1.vectorY, body2.vectorX, body2.vectorY,
-                            body1.mass, body2.mass);
+                            body1.mass, body2.mass, 1);
 
                     body1.vectorX = speed[0];
                     body1.vectorY = speed[1];

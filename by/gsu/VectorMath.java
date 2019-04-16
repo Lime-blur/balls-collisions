@@ -40,15 +40,19 @@ public class VectorMath {
         return new double[]{pX, pY};
     }
 
-    public static double[] getBodiesSpeed(double vX1, double vY1, double vX2, double vY2,
-                                           double mass1, double mass2) {
+    public static double[] getNewBodiesSpeed(double r1, double r2,
+                                             double cX1, double cY1, double cX2, double cY2,
+                                             double vX1, double vY1, double vX2, double vY2,
+                                           double mass1, double mass2, double recoveryFactor) {
         double sumMass = mass1 + mass2;
+        double fi = Math.asin(Math.abs(cY2 - cY1) / (r1 + r2));
+        double beta = Math.acos(dotProduct(cX1, cY1, cX2, cY2) / (getLength(cX1, cY1) * getLength(cX2, cY2)));
 
-        double rvX1 = ((mass1 - mass2) * vX1 + 2 * mass2 * vX2) / sumMass;
-        double rvY1 = ((mass1 - mass2) * vY1 + 2 * mass2 * vY2) / sumMass;
+        double rvX1 = ((mass1 - recoveryFactor * mass2) * vX1 + (1 + recoveryFactor) * mass2 * vX2) / sumMass;
+        double rvY1 = ((mass1 - recoveryFactor * mass2) * vY1 + (1 + recoveryFactor) * mass2 * vY2) / sumMass;
 
-        double rvX2 = ((mass2 - mass1) * vX2 + 2 * mass1 * vX1) / sumMass;
-        double rvY2 = ((mass2 - mass1) * vY2 + 2 * mass1 * vY1) / sumMass;
+        double rvX2 = ((mass2 - recoveryFactor * mass1) * vX2 + (1 + recoveryFactor) * mass1 * vX1) / sumMass;
+        double rvY2 = ((mass2 - recoveryFactor * mass1) * vY2 + (1 + recoveryFactor) * mass1 * vY1) / sumMass;
 
         return new double[]{rvX1, rvY1, rvX2, rvY2};
     }
